@@ -1,5 +1,14 @@
 import { useState, useEffect } from "react";
-import { Search, LogOut, Camera, MessageSquare, X, Users } from "lucide-react";
+import {
+  Search,
+  LogOut,
+  Camera,
+  MessageSquare,
+  X,
+  Users,
+  MoreVertical,
+  User,
+} from "lucide-react";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 import UserAvatar from "./UserAvatar";
@@ -12,8 +21,11 @@ export default function Sidebar({
 }) {
   const { user, logout } = useAuth();
   const [users, setUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeTab, setActiveTab] = useState("all"); // 'all' | 'online'
   const [showProfile, setShowProfile] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [loadingUserId, setLoadingUserId] = useState(null);
 
   useEffect(() => {
@@ -21,11 +33,14 @@ export default function Sidebar({
   }, []);
 
   async function fetchUsers() {
+    setLoadingUsers(true);
     try {
       const res = await API.get("/auth/users");
       setUsers(res.data.users || []);
     } catch (err) {
       console.error("Failed to fetch users:", err);
+    } finally {
+      setLoadingUsers(false);
     }
   }
 
@@ -50,10 +65,13 @@ export default function Sidebar({
     }
   }
 
-  const filteredUsers = users.filter((u) =>
-    u.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    u.email?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredUsers = users.filter((u) => {
+    const matchesSearch =
+      u.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      u.email?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesTab = activeTab === "all" ? true : u.isOnline;
+    return matchesSearch && matchesTab;
+  });
 
   return (
     <aside className="sidebar">
@@ -78,18 +96,49 @@ export default function Sidebar({
           </div>
           <div className="sidebar-user-details">
             <span className="sidebar-username">{user?.name || "User"}</span>
-            <span className="sidebar-status-tag">Online</span>
+            <span className="sidebar-status-tag">Available</span>
           </div>
         </div>
 
         <div className="sidebar-header-actions">
-          <button
-            className="icon-btn"
-            onClick={handleLogout}
-            title="Log out"
-          >
-            <LogOut size={18} />
-          </button>
+          <div className="dropdown-container">
+            <button
+              className="icon-btn"
+              onClick={() => setShowMenu(!showMenu)}
+              title="Menu"
+            >
+              <MoreVertical size={18} />
+            </button>
+
+            {showMenu && (
+              <div
+                className="dropdown-menu"
+                onMouseLeave={() => setShowMenu(false)}
+              >
+                <button
+                  className="dropdown-item"
+                  onClick={() => {
+                    setShowProfile(true);
+                    setShowMenu(false);
+                  }}
+                >
+                  <User size={15} />
+                  <span>Edit Profile</span>
+                </button>
+                <div className="dropdown-divider" />
+                <button
+                  className="dropdown-item danger"
+                  onClick={() => {
+                    setShowMenu(false);
+                    handleLogout();
+                  }}
+                >
+                  <LogOut size={15} />
+                  <span>Log Out</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -115,18 +164,38 @@ export default function Sidebar({
         </div>
       </div>
 
-      {/* Section Subheading */}
-      <div className="sidebar-section-header">
-        <span>Chats</span>
-        <span className="user-count-badge">
-          <Users size={12} />
-          {filteredUsers.length}
-        </span>
+      {/* Filter Tabs */}
+      <div className="sidebar-tabs-bar">
+        <button
+          className={`sidebar-tab-pill ${activeTab === "all" ? "active" : ""}`}
+          onClick={() => setActiveTab("all")}
+        >
+          All Chats
+          <span className="tab-count">{users.length}</span>
+        </button>
+        <button
+          className={`sidebar-tab-pill ${activeTab === "online" ? "active" : ""}`}
+          onClick={() => setActiveTab("online")}
+        >
+          Active
+        </button>
       </div>
 
       {/* User list */}
       <div className="sidebar-users">
-        {filteredUsers.length === 0 ? (
+        {loadingUsers ? (
+          <div className="sidebar-skeletons">
+            {[1, 2, 3, 4].map((n) => (
+              <div key={n} className="user-skeleton-item">
+                <div className="skeleton-avatar" />
+                <div className="skeleton-info">
+                  <div className="skeleton-line short" />
+                  <div className="skeleton-line long" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : filteredUsers.length === 0 ? (
           <div className="sidebar-empty">
             <div className="empty-icon-circle">
               <MessageSquare size={24} />
