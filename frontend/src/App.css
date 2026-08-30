@@ -1,64 +1,74 @@
 /* ===================================================
-   ChatApp — Complete Modern Design System & Styles
-   Clean, sleek, modern dark theme with teal accent
+   ChatApp — Ultra-Modern Design System & Backgrounds
+   Clean, sleek, premium dark theme with authentic chat doodle wallpaper
    =================================================== */
 
 /* ---- CSS Variables / Design Tokens ---- */
 :root {
-  /* Colors */
-  --bg-primary: #0b0e14;
-  --bg-secondary: #111622;
-  --bg-tertiary: #1a2232;
-  --bg-hover: #222c3f;
-  --bg-active: #1d2738;
-  --bg-input: #151c2a;
+  /* Core Backgrounds */
+  --bg-primary: #080b11;
+  --bg-secondary: #0f141f;
+  --bg-tertiary: #161e2e;
+  --bg-hover: #1f2a3f;
+  --bg-active: #1a2538;
+  --bg-input: #121926;
+  --bg-card: rgba(15, 20, 31, 0.85);
 
+  /* Accents & Highlights */
   --accent: #00a884;
   --accent-hover: #02c39a;
   --accent-active: #008f6f;
-  --accent-subtle: rgba(0, 168, 132, 0.14);
-  --accent-glow: rgba(0, 168, 132, 0.35);
+  --accent-subtle: rgba(0, 168, 132, 0.15);
+  --accent-glow: rgba(0, 168, 132, 0.4);
+  --accent-gradient: linear-gradient(135deg, #00a884 0%, #02c39a 100%);
 
-  --text-primary: #f0f6fc;
-  --text-secondary: #8b949e;
-  --text-muted: #626c79;
+  /* Text & Labels */
+  --text-primary: #f3f6fa;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
 
-  --border-color: #273142;
-  --border-subtle: #1c2433;
+  /* Borders & Dividers */
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
   --border-focus: #00a884;
 
-  --bubble-own: #005c4b;
-  --bubble-own-hover: #016b57;
-  --bubble-other: #1a2232;
-  --bubble-other-hover: #212c40;
+  /* Message Bubbles */
+  --bubble-own-bg: linear-gradient(145deg, #005c4b 0%, #006854 100%);
+  --bubble-own-border: rgba(0, 200, 150, 0.18);
+  --bubble-other-bg: linear-gradient(145deg, #18202e 0%, #131a26 100%);
+  --bubble-other-border: rgba(255, 255, 255, 0.07);
 
+  /* Status Colors */
   --online-color: #10b981;
-  --offline-color: #6b7280;
+  --offline-color: #64748b;
 
-  --danger: #f85149;
-  --danger-bg: rgba(248, 81, 73, 0.12);
-  --danger-border: rgba(248, 81, 73, 0.3);
+  /* Alerts */
+  --danger: #f43f5e;
+  --danger-bg: rgba(244, 63, 94, 0.12);
+  --danger-border: rgba(244, 63, 94, 0.3);
 
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 14px 40px rgba(0, 0, 0, 0.55);
-  --shadow-glow: 0 0 20px var(--accent-glow);
+  /* Shadows */
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.65);
+  --shadow-glow: 0 0 24px var(--accent-glow);
 
   /* Typography */
   --font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Sizing */
+  /* Layout */
   --sidebar-width: 380px;
-  --header-height: 64px;
-  --input-height: 72px;
+  --header-height: 66px;
+  --input-height: 74px;
   --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
   --radius-pill: 9999px;
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* ---- Global Reset ---- */
@@ -96,7 +106,6 @@ a {
 
 a:hover {
   color: var(--accent-hover);
-  text-decoration: underline;
 }
 
 /* ---- Sleek Custom Scrollbar ---- */
@@ -110,12 +119,12 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-hover);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-pill);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: rgba(255, 255, 255, 0.22);
 }
 
 /* ---- Loading Spinner ---- */
@@ -142,7 +151,9 @@ a:hover {
   justify-content: center;
   gap: 16px;
   color: var(--text-secondary);
-  background: var(--bg-primary);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0, 168, 132, 0.08) 0%, transparent 60%),
+    var(--bg-primary);
 }
 
 /* ================================================
@@ -177,19 +188,17 @@ a:hover {
 }
 
 .btn-primary {
-  background: var(--accent);
+  background: var(--accent-gradient);
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 168, 132, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 168, 132, 0.35);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--accent-hover);
-  box-shadow: 0 4px 14px rgba(0, 168, 132, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 168, 132, 0.5);
   transform: translateY(-1px);
 }
 
 .btn-primary:active:not(:disabled) {
-  background: var(--accent-active);
   transform: translateY(0);
 }
 
@@ -239,8 +248,9 @@ a:hover {
 }
 
 .icon-btn:hover {
-  background: var(--bg-hover);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
+  transform: scale(1.05);
 }
 
 /* ================================================
@@ -253,21 +263,23 @@ a:hover {
   justify-content: center;
   padding: 24px;
   background:
-    radial-gradient(circle at 15% 20%, rgba(0, 168, 132, 0.1) 0%, transparent 45%),
-    radial-gradient(circle at 85% 80%, rgba(14, 165, 233, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 10% 20%, rgba(0, 168, 132, 0.15) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 60%),
     var(--bg-primary);
+  position: relative;
 }
 
 .auth-card {
   width: 100%;
   max-width: 420px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-lg);
   padding: 44px 36px;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
   position: relative;
-  backdrop-filter: blur(12px);
 }
 
 .auth-header {
@@ -279,12 +291,12 @@ a:hover {
   display: inline-flex;
   margin-bottom: 18px;
   border-radius: var(--radius-md);
-  box-shadow: 0 4px 18px rgba(0, 168, 132, 0.3);
-  transition: transform var(--transition-normal);
+  box-shadow: 0 8px 24px rgba(0, 168, 132, 0.4);
+  transition: transform var(--transition-spring);
 }
 
 .auth-logo:hover {
-  transform: scale(1.06);
+  transform: scale(1.08) rotate(3deg);
 }
 
 .auth-header h1 {
@@ -336,7 +348,7 @@ a:hover {
 .input-group input {
   width: 100%;
   padding: 13px 16px 13px 44px;
-  background: var(--bg-tertiary);
+  background: var(--bg-input);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   color: var(--text-primary);
@@ -349,7 +361,7 @@ a:hover {
 .input-group input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-subtle);
-  background: var(--bg-primary);
+  background: var(--bg-secondary);
 }
 
 .input-group input:focus ~ .input-icon {
@@ -416,6 +428,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   background: var(--bg-secondary);
+  border-right: 1px solid var(--border-subtle);
 }
 
 .sidebar-header {
@@ -425,7 +438,8 @@ a:hover {
   padding: 12px 18px;
   height: var(--header-height);
   border-bottom: 1px solid var(--border-color);
-  background: var(--bg-secondary);
+  background: rgba(15, 20, 31, 0.95);
+  backdrop-filter: blur(12px);
 }
 
 .sidebar-user-info {
@@ -437,11 +451,11 @@ a:hover {
 .sidebar-avatar-wrapper {
   position: relative;
   cursor: pointer;
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-spring);
 }
 
 .sidebar-avatar-wrapper:hover {
-  transform: scale(1.04);
+  transform: scale(1.06);
 }
 
 .avatar-camera-badge {
@@ -499,7 +513,7 @@ a:hover {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   padding: 6px;
-  min-width: 160px;
+  min-width: 165px;
   z-index: 50;
   animation: dropdownIn 150ms ease-out;
 }
@@ -552,7 +566,7 @@ a:hover {
 
 /* Search Bar */
 .sidebar-search {
-  padding: 10px 14px;
+  padding: 12px 14px;
   background: var(--bg-secondary);
 }
 
@@ -573,7 +587,7 @@ a:hover {
   width: 100%;
   padding: 10px 36px 10px 40px;
   background: var(--bg-input);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-pill);
   color: var(--text-primary);
   font-family: var(--font-family);
@@ -673,8 +687,8 @@ a:hover {
 }
 
 .skeleton-avatar {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-hover) 50%, var(--bg-tertiary) 75%);
   background-size: 200% 100%;
@@ -725,8 +739,8 @@ a:hover {
 }
 
 .empty-icon-circle {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: var(--bg-tertiary);
   display: flex;
@@ -774,6 +788,7 @@ a:hover {
   width: 3.5px;
   background: var(--accent);
   border-radius: 0 4px 4px 0;
+  box-shadow: 0 0 10px var(--accent-glow);
 }
 
 .user-item.loading {
@@ -837,6 +852,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .avatar-img {
@@ -863,12 +879,12 @@ a:hover {
   bottom: 0;
   right: 0;
   border-radius: 50%;
-  border: 2px solid var(--bg-secondary);
+  border: 2.5px solid var(--bg-secondary);
 }
 
 .avatar-status-dot.online {
   background: var(--online-color);
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
 }
 
 .avatar-status-dot.offline {
@@ -890,7 +906,8 @@ a:hover {
   align-items: center;
   justify-content: center;
   background:
-    radial-gradient(circle at 50% 50%, rgba(0, 168, 132, 0.05) 0%, transparent 65%),
+    radial-gradient(circle at 50% 50%, rgba(0, 168, 132, 0.07) 0%, transparent 60%),
+    radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
     var(--bg-primary);
 }
 
@@ -898,28 +915,28 @@ a:hover {
   text-align: center;
   color: var(--text-muted);
   padding: 32px;
-  max-width: 440px;
+  max-width: 460px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .empty-icon-glow {
-  width: 90px;
-  height: 90px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 24px;
   color: var(--accent);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 168, 132, 0.2);
 }
 
 .empty-state-hero h2 {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.02em;
@@ -927,7 +944,7 @@ a:hover {
 }
 
 .empty-state-hero p {
-  font-size: 14px;
+  font-size: 14.5px;
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 24px;
@@ -944,13 +961,14 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
+  padding: 7px 16px;
   background: var(--bg-secondary);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-pill);
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 500;
   color: var(--text-secondary);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Chat Header */
@@ -960,9 +978,11 @@ a:hover {
   gap: 14px;
   padding: 0 20px;
   height: var(--header-height);
-  background: var(--bg-secondary);
+  background: rgba(15, 20, 31, 0.95);
   border-bottom: 1px solid var(--border-color);
+  backdrop-filter: blur(16px);
   flex-shrink: 0;
+  z-index: 5;
 }
 
 .back-btn {
@@ -995,6 +1015,7 @@ a:hover {
   height: 7px;
   background: var(--online-color);
   border-radius: 50%;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.8);
   animation: pulseDot 2s infinite ease-in-out;
 }
 
@@ -1004,8 +1025,8 @@ a:hover {
     transform: scale(1);
   }
   50% {
-    opacity: 0.5;
-    transform: scale(0.85);
+    opacity: 0.4;
+    transform: scale(0.8);
   }
 }
 
@@ -1021,7 +1042,9 @@ a:hover {
   gap: 4px;
 }
 
-/* Messages Stream & Doodle Wallpaper Background */
+/* ================================================
+   CHAT MESSAGES WITH DOODLE WALLPAPER PATTERN
+   ================================================ */
 .chat-messages-container {
   flex: 1;
   position: relative;
@@ -1029,36 +1052,41 @@ a:hover {
   flex-direction: column;
   overflow: hidden;
   background-color: var(--bg-primary);
-  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 24px 24px;
+  /* Elegant WhatsApp-style geometric doodle wallpaper */
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(0, 168, 132, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(14, 165, 233, 0.04) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.025' fill-rule='evenodd'%3E%3Cpath d='M11 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm29 24a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm-29 24a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm58-48a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm-29 24a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm29 24a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM24 20h4v4h-4v-4zm0 40h4v4h-4v-4zm40-40h4v4h-4v-4zm0 40h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 20px 48px;
+  padding: 22px 48px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .chat-date-separator {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 12px 0;
+  margin: 14px 0;
 }
 
 .chat-date-separator span {
-  padding: 4px 12px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-subtle);
+  padding: 5px 16px;
+  background: rgba(22, 30, 46, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-pill);
   font-size: 11.5px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(8px);
 }
 
 .chat-loading {
@@ -1083,25 +1111,27 @@ a:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 28px 36px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-subtle);
+  gap: 10px;
+  padding: 32px 40px;
+  background: rgba(15, 20, 31, 0.9);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   text-align: center;
-  max-width: 380px;
-  box-shadow: var(--shadow-md);
+  max-width: 400px;
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(12px);
 }
 
 .sparkle-circle {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: var(--accent-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 4px;
+  box-shadow: 0 0 16px rgba(0, 168, 132, 0.3);
 }
 
 .sparkle-icon {
@@ -1109,7 +1139,7 @@ a:hover {
 }
 
 .no-messages-bubble h3 {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -1122,42 +1152,45 @@ a:hover {
 .quick-start-reactions {
   display: flex;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 10px;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .quick-emoji-pill {
-  font-size: 18px;
+  font-size: 19px;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-pill);
-  padding: 6px 12px;
+  padding: 7px 14px;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all var(--transition-spring);
 }
 
 .quick-emoji-pill:hover {
   background: var(--bg-hover);
-  transform: scale(1.15);
+  transform: scale(1.2);
   border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Message Bubbles */
+/* ================================================
+   MESSAGE BUBBLES WITH AUTHENTIC GEOMETRY
+   ================================================ */
 .message-bubble-wrapper {
   display: flex;
   width: 100%;
-  animation: fadeInBubble 0.2s ease-out;
+  animation: fadeInBubble 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes fadeInBubble {
   from {
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(6px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -1171,31 +1204,33 @@ a:hover {
 
 .message-bubble {
   max-width: 65%;
-  min-width: 90px;
+  min-width: 95px;
   padding: 8px 14px 6px;
-  border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   position: relative;
   display: flex;
   flex-direction: column;
 }
 
+/* Own messages - emerald WhatsApp style */
 .message-bubble-wrapper.own .message-bubble {
-  background: var(--bubble-own);
-  border-bottom-right-radius: 3px;
+  background: var(--bubble-own-bg);
+  border: 1px solid var(--bubble-own-border);
+  border-radius: 16px 16px 3px 16px;
 }
 
+/* Other messages - slate stylish style */
 .message-bubble-wrapper.other .message-bubble {
-  background: var(--bubble-other);
-  border-bottom-left-radius: 3px;
-  border: 1px solid var(--border-subtle);
+  background: var(--bubble-other-bg);
+  border: 1px solid var(--bubble-other-border);
+  border-radius: 16px 16px 16px 3px;
 }
 
 .message-action-btn {
   position: absolute;
   top: 6px;
   right: 6px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.45);
   border: none;
   border-radius: 4px;
   color: var(--text-secondary);
@@ -1211,7 +1246,7 @@ a:hover {
 
 .message-action-btn:hover {
   color: var(--text-primary);
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.75);
 }
 
 .message-text {
@@ -1234,7 +1269,7 @@ a:hover {
 
 .message-time {
   font-size: 11px;
-  color: rgba(240, 246, 252, 0.6);
+  color: rgba(240, 246, 252, 0.65);
   white-space: nowrap;
 }
 
@@ -1242,13 +1277,15 @@ a:hover {
   color: #53bdeb;
 }
 
-/* Emoji Picker Popover */
+/* ================================================
+   EMOJI PICKER POPOVER
+   ================================================ */
 .emoji-picker-popover {
   position: absolute;
-  bottom: 84px;
+  bottom: 88px;
   left: 20px;
-  width: 320px;
-  background: var(--bg-secondary);
+  width: 325px;
+  background: rgba(17, 22, 34, 0.96);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
@@ -1256,13 +1293,14 @@ a:hover {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: popoverIn 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(16px);
+  animation: popoverIn 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes popoverIn {
   from {
     opacity: 0;
-    transform: translateY(8px) scale(0.95);
+    transform: translateY(10px) scale(0.95);
   }
   to {
     opacity: 1;
@@ -1359,12 +1397,16 @@ a:hover {
   transform: scale(1.2);
 }
 
-/* Chat Input Bar */
+/* ================================================
+   CHAT INPUT BAR
+   ================================================ */
 .chat-input-container {
-  padding: 12px 20px;
-  background: var(--bg-secondary);
+  padding: 14px 22px;
+  background: rgba(15, 20, 31, 0.95);
   border-top: 1px solid var(--border-color);
+  backdrop-filter: blur(16px);
   flex-shrink: 0;
+  z-index: 5;
 }
 
 .chat-input-bar {
@@ -1375,12 +1417,13 @@ a:hover {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-pill);
   padding: 6px 8px 6px 14px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .chat-input-bar:focus-within {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent-subtle);
+  box-shadow: 0 0 0 2px var(--accent-subtle), inset 0 1px 3px rgba(0, 0, 0, 0.3);
   background: var(--bg-primary);
 }
 
@@ -1394,13 +1437,14 @@ a:hover {
   justify-content: center;
   padding: 6px;
   border-radius: 50%;
-  transition: color var(--transition-fast), background var(--transition-fast);
+  transition: color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
 }
 
 .input-action-btn:hover,
 .input-action-btn.active {
   color: var(--accent);
   background: var(--accent-subtle);
+  transform: scale(1.08);
 }
 
 .chat-input-bar input {
@@ -1429,19 +1473,19 @@ a:hover {
   background: var(--bg-hover);
   color: var(--text-muted);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all var(--transition-spring);
   flex-shrink: 0;
 }
 
 .send-btn.active {
-  background: var(--accent);
+  background: var(--accent-gradient);
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 168, 132, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 168, 132, 0.45);
 }
 
 .send-btn.active:hover {
-  background: var(--accent-hover);
-  transform: scale(1.06);
+  transform: scale(1.1);
+  box-shadow: 0 6px 18px rgba(0, 168, 132, 0.6);
 }
 
 .send-btn:disabled {
@@ -1454,18 +1498,18 @@ a:hover {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.78);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
   padding: 24px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
 }
 
 .modal-content {
   background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-lg);
   width: 100%;
   max-width: 400px;
@@ -1476,7 +1520,7 @@ a:hover {
 @keyframes modalIn {
   from {
     opacity: 0;
-    transform: scale(0.95) translateY(10px);
+    transform: scale(0.94) translateY(12px);
   }
   to {
     opacity: 1;
@@ -1525,12 +1569,12 @@ a:hover {
 }
 
 .profile-preview {
-  width: 128px;
-  height: 128px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid var(--accent);
-  box-shadow: 0 0 16px rgba(0, 168, 132, 0.25);
+  box-shadow: 0 0 20px rgba(0, 168, 132, 0.3);
 }
 
 .preview-image {
