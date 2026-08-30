@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const Conversation = require("./models/Conversation.js");
 const connectDB = require("./config/db.js");
 const app = require("./app");
+const Message = require("./models/Message.js");
 
 const PORT = process.env.PORT || 5000;
 
@@ -83,6 +84,61 @@ io.on("connection", (socket) => {
         return callback({
           success: false,
           message: "Unable to join conversation",
+        });
+      }
+    },
+  );
+
+  socket.on(
+    "send-message",
+    async ({ conversationId, text }, callback = () => {}) => {
+      try {
+        if (!mongoose.isValidObjectId(conversationId)) {
+          return callback({
+            success: false,
+            message: "Invalid conversation ID",
+          });
+        }
+
+        if (!text || !text.trim()) {
+          return callback({
+            success: false,
+            message: "Message cannot be empty",
+          });
+        }
+
+        const conversation = await Conversation.findOne({
+          _id: conversationId,
+          participants: socket.user.id,
+        });
+
+        if (!conversation) {
+          return callback({
+            success: false,
+            message:
+              "You are not allowed to send messages in this conversation",
+          });
+        }
+
+        const message = await Message.create({
+          conversation: conversationId,
+          sender: socket.user.id,
+          text: text.trim(),
+        });
+
+        await message.populate("sender", "name email profilePicture");
+
+        io.to(conversationId).emit("new-message", message);
+
+        return callback({
+          success: true,
+          message: "Message sent successfully",
+        });
+      } catch (error) {
+        console.error("Send Message Error:", error);
+        return callback({
+          success: false,
+          message: "Unable to send message",
         });
       }
     },
