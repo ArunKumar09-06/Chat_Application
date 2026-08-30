@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, LogOut, Camera, MessageSquare } from "lucide-react";
+import { Search, LogOut, Camera, MessageSquare, X, Users } from "lucide-react";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 import UserAvatar from "./UserAvatar";
@@ -23,7 +23,7 @@ export default function Sidebar({
   async function fetchUsers() {
     try {
       const res = await API.get("/auth/users");
-      setUsers(res.data.users);
+      setUsers(res.data.users || []);
     } catch (err) {
       console.error("Failed to fetch users:", err);
     }
@@ -51,7 +51,8 @@ export default function Sidebar({
   }
 
   const filteredUsers = users.filter((u) =>
-    u.name.toLowerCase().includes(searchQuery.toLowerCase())
+    u.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    u.email?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -62,68 +63,123 @@ export default function Sidebar({
           <div
             className="sidebar-avatar-wrapper"
             onClick={() => setShowProfile(true)}
-            title="Change profile picture"
+            title="Click to change profile picture"
           >
             <UserAvatar
               src={user?.profilePicture}
               name={user?.name}
-              size={40}
+              size={42}
+              showStatus={true}
+              isOnline={true}
             />
             <div className="avatar-camera-badge">
-              <Camera size={12} />
+              <Camera size={11} />
             </div>
           </div>
-          <span className="sidebar-username">{user?.name}</span>
+          <div className="sidebar-user-details">
+            <span className="sidebar-username">{user?.name || "User"}</span>
+            <span className="sidebar-status-tag">Online</span>
+          </div>
         </div>
-        <button
-          className="icon-btn"
-          onClick={handleLogout}
-          title="Logout"
-        >
-          <LogOut size={20} />
-        </button>
+
+        <div className="sidebar-header-actions">
+          <button
+            className="icon-btn"
+            onClick={handleLogout}
+            title="Log out"
+          >
+            <LogOut size={18} />
+          </button>
+        </div>
       </div>
 
-      {/* Search */}
+      {/* Search Bar */}
       <div className="sidebar-search">
         <div className="search-input-wrapper">
           <Search size={16} className="search-icon" />
           <input
             type="text"
-            placeholder="Search users..."
+            placeholder="Search or start new chat..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+          {searchQuery && (
+            <button
+              className="search-clear-btn"
+              onClick={() => setSearchQuery("")}
+              title="Clear search"
+            >
+              <X size={14} />
+            </button>
+          )}
         </div>
+      </div>
+
+      {/* Section Subheading */}
+      <div className="sidebar-section-header">
+        <span>Chats</span>
+        <span className="user-count-badge">
+          <Users size={12} />
+          {filteredUsers.length}
+        </span>
       </div>
 
       {/* User list */}
       <div className="sidebar-users">
         {filteredUsers.length === 0 ? (
           <div className="sidebar-empty">
-            <MessageSquare size={32} />
-            <p>No users found</p>
+            <div className="empty-icon-circle">
+              <MessageSquare size={24} />
+            </div>
+            <h4>No conversations found</h4>
+            <p>
+              {searchQuery
+                ? `No user matching "${searchQuery}"`
+                : "No other users registered yet"}
+            </p>
+            {searchQuery && (
+              <button
+                className="btn btn-ghost btn-sm"
+                onClick={() => setSearchQuery("")}
+              >
+                Clear Search
+              </button>
+            )}
           </div>
         ) : (
-          filteredUsers.map((u) => (
-            <div
-              key={u._id}
-              className={`user-item ${
-                activeConversation?.otherUser?._id === u._id ? "active" : ""
-              } ${loadingUserId === u._id ? "loading" : ""}`}
-              onClick={() => handleUserClick(u)}
-            >
-              <UserAvatar
-                src={u.profilePicture}
-                name={u.name}
-                size={44}
-              />
-              <div className="user-item-info">
-                <span className="user-item-name">{u.name}</span>
-                <span className="user-item-email">{u.email}</span>
+          filteredUsers.map((u) => {
+            const isActive =
+              activeConversation?.otherUser?._id === u._id ||
+              activeConversation?.otherUser?.id === u._id;
+            const isLoading = loadingUserId === u._id;
+
+            return (
+              <div
+                key={u._id}
+                className={`user-item ${isActive ? "active" : ""} ${
+                  isLoading ? "loading" : ""
+                }`}
+                onClick={() => handleUserClick(u)}
+              >
+                <UserAvatar
+                  src={u.profilePicture}
+                  name={u.name}
+                  size={46}
+                  showStatus={true}
+                  isOnline={u.isOnline ?? false}
+                />
+                <div className="user-item-info">
+                  <div className="user-item-header">
+                    <span className="user-item-name">{u.name}</span>
+                  </div>
+                  <div className="user-item-sub">
+                    <span className="user-item-email">{u.email}</span>
+                  </div>
+                </div>
+                {isActive && <div className="active-indicator" />}
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
 
